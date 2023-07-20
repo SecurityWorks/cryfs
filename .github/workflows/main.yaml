@@ -9,9 +9,11 @@ jobs:
       matrix:
         name: [""]
         os:
-          - macos-10.15
-          - ubuntu-18.04
+          - macos-11
+          - macos-12
+          - macos-13
           - ubuntu-20.04
+          - ubuntu-22.04
         compiler:
           - cxx: g++-7
             cc: gcc-7
@@ -31,13 +33,30 @@ jobs:
             macos_cc: gcc-9
             apt_package: g++-9
             homebrew_package: gcc@9
-#         TODO gcc 10 doesn't work, potentially because cmake doesn't know yet that the STL now depends on pthread. See https://github.com/pothosware/SoapySDRPlay3/issues/5
-#           - cxx: g++-10
-#             cc: gcc-10
-#             macos_cxx: g++-10
-#             macos_cc: gcc-10
-#             apt_package: g++-10
-#             homebrew_package: gcc@10
+          - cxx: g++-10
+            cc: gcc-10
+            macos_cxx: g++-10
+            macos_cc: gcc-10
+            apt_package: g++-10
+            homebrew_package: gcc@10
+          - cxx: g++-11
+            cc: gcc-11
+            macos_cxx: g++-11
+            macos_cc: gcc-11
+            apt_package: g++-11
+            homebrew_package: gcc@11
+          - cxx: g++-12
+            cc: gcc-12
+            macos_cxx: g++-12
+            macos_cc: gcc-12
+            apt_package: g++-12
+            homebrew_package: gcc@12
+          - cxx: g++-13
+            cc: gcc-13
+            macos_cxx: g++-13
+            macos_cc: gcc-13
+            apt_package: g++-13
+            homebrew_package: gcc@13
           - cxx: clang++-7
             cc: clang-7
             macos_cxx: /usr/local/opt/llvm@7/bin/clang++
@@ -56,13 +75,42 @@ jobs:
             macos_cc: /usr/local/opt/llvm@9/bin/clang
             apt_package: clang-9
             homebrew_package: llvm@9
-          # TODO Clang-10 on linux? macos homebrew doesn't seem to have it
+          - cxx: clang++-10
+            cc: clang-10
+            macos_cxx: /usr/local/opt/llvm@10/bin/clang++
+            macos_cc: /usr/local/opt/llvm@10/bin/clang
+            apt_package: clang-10
+            homebrew_package: llvm@10
           - cxx: clang++-11
             cc: clang-11
             macos_cxx: /usr/local/opt/llvm@11/bin/clang++
             macos_cc: /usr/local/opt/llvm@11/bin/clang
-            apt_package: clang-11
+            apt_package: clang-11 libomp5-11 libomp-11-dev
             homebrew_package: llvm@11
+          - cxx: clang++-12
+            cc: clang-12
+            macos_cxx: /usr/local/opt/llvm@12/bin/clang++
+            macos_cc: /usr/local/opt/llvm@12/bin/clang
+            apt_package: clang-12 libomp5-12 libomp-12-dev
+            homebrew_package: llvm@12
+          - cxx: clang++-13
+            cc: clang-13
+            macos_cxx: /usr/local/opt/llvm@13/bin/clang++
+            macos_cc: /usr/local/opt/llvm@13/bin/clang
+            apt_package: clang-13 libomp5-13 libomp-13-dev
+            homebrew_package: llvm@13
+          - cxx: clang++-14
+            cc: clang-14
+            macos_cxx: /usr/local/opt/llvm@14/bin/clang++
+            macos_cc: /usr/local/opt/llvm@14/bin/clang
+            apt_package: clang-14 libomp5-14 libomp-14-dev
+            homebrew_package: llvm@14
+          - cxx: clang++-15
+            cc: clang-15
+            macos_cxx: /usr/local/opt/llvm@15/bin/clang++
+            macos_cc: /usr/local/opt/llvm@15/bin/clang
+            apt_package: clang-15 libomp5-15 libomp-15-dev
+            homebrew_package: llvm@15
           # Apple Clang
 #           - cxx: clang++
 #             cc: clang
@@ -78,13 +126,67 @@ jobs:
         run_build: [true]
         run_tests: [true]
         run_clang_tidy: [false]
+        exclude:
+          # MacOS CI doesn't have Clang 7, 8, 9, 10 or GCC 7, 8 anymore
+          - os: macos-11
+            compiler: {cxx: clang++-7, cc: clang-7, macos_cxx: /usr/local/opt/llvm@7/bin/clang++, macos_cc: /usr/local/opt/llvm@7/bin/clang, apt_package: clang-7, homebrew_package: llvm@7}
+          - os: macos-11
+            compiler: {cxx: clang++-8, cc: clang-8, macos_cxx: /usr/local/opt/llvm@8/bin/clang++, macos_cc: /usr/local/opt/llvm@8/bin/clang, apt_package: clang-8, homebrew_package: llvm@8}
+          - os: macos-11
+            compiler: {cxx: clang++-9, cc: clang-9, macos_cxx: /usr/local/opt/llvm@9/bin/clang++, macos_cc: /usr/local/opt/llvm@9/bin/clang, apt_package: clang-9, homebrew_package: llvm@9}
+          - os: macos-11
+            compiler: {cxx: clang++-10, cc: clang-10, macos_cxx: /usr/local/opt/llvm@10/bin/clang++, macos_cc: /usr/local/opt/llvm@10/bin/clang, apt_package: clang-10, homebrew_package: llvm@10}
+          - os: macos-11
+            compiler: {cxx: g++-7, cc: gcc-7, macos_cxx: g++-7, macos_cc: gcc-7, homebrew_package: gcc@7, apt_package: g++-7}
+          - os: macos-11
+            compiler: {cxx: g++-8, cc: gcc-8, macos_cxx: g++-8, macos_cc: gcc-8, homebrew_package: gcc@8, apt_package: g++-8}
+          - os: macos-12
+            compiler: {cxx: clang++-7, cc: clang-7, macos_cxx: /usr/local/opt/llvm@7/bin/clang++, macos_cc: /usr/local/opt/llvm@7/bin/clang, apt_package: clang-7, homebrew_package: llvm@7}
+          - os: macos-12
+            compiler: {cxx: clang++-8, cc: clang-8, macos_cxx: /usr/local/opt/llvm@8/bin/clang++, macos_cc: /usr/local/opt/llvm@8/bin/clang, apt_package: clang-8, homebrew_package: llvm@8}
+          - os: macos-12
+            compiler: {cxx: clang++-9, cc: clang-9, macos_cxx: /usr/local/opt/llvm@9/bin/clang++, macos_cc: /usr/local/opt/llvm@9/bin/clang, apt_package: clang-9, homebrew_package: llvm@9}
+          - os: macos-12
+            compiler: {cxx: g++-7, cc: gcc-7, macos_cxx: g++-7, macos_cc: gcc-7, homebrew_package: gcc@7, apt_package: g++-7}
+          - os: macos-12
+            compiler: {cxx: g++-8, cc: gcc-8, macos_cxx: g++-8, macos_cc: gcc-8, homebrew_package: gcc@8, apt_package: g++-8}
+          - os: macos-12
+            compiler: {cxx: g++-9, cc: gcc-9, macos_cxx: g++-9, macos_cc: gcc-9, homebrew_package: gcc@9, apt_package: g++-9}
+          - os: macos-12
+            compiler: {cxx: clang++-10, cc: clang-10, macos_cxx: /usr/local/opt/llvm@10/bin/clang++, macos_cc: /usr/local/opt/llvm@10/bin/clang, apt_package: clang-10, homebrew_package: llvm@10}
+          - os: macos-13
+            compiler: {cxx: clang++-7, cc: clang-7, macos_cxx: /usr/local/opt/llvm@7/bin/clang++, macos_cc: /usr/local/opt/llvm@7/bin/clang, apt_package: clang-7, homebrew_package: llvm@7}
+          - os: macos-13
+            compiler: {cxx: clang++-10, cc: clang-10, macos_cxx: /usr/local/opt/llvm@10/bin/clang++, macos_cc: /usr/local/opt/llvm@10/bin/clang, apt_package: clang-10, homebrew_package: llvm@10}
+          # Ubuntu 20.04 doesn't have GCC 12, 13 yet
+          - os: ubuntu-20.04
+            compiler: {cxx: g++-12, cc: gcc-12, macos_cxx: g++-12, macos_cc: gcc-12, homebrew_package: gcc@12, apt_package: g++-12}
+          - os: ubuntu-20.04
+            compiler: {cxx: g++-13, cc: gcc-13, macos_cxx: g++-13, macos_cc: gcc-13, homebrew_package: gcc@13, apt_package: g++-13}
+          # Ubuntu 22.04 doesn't have gcc 7, 8 or clang 7, 8, 9, 10 anymore
+          - os: ubuntu-22.04
+            compiler: {cxx: g++-7, cc: gcc-7, macos_cxx: g++-7, macos_cc: gcc-7, homebrew_package: gcc@7, apt_package: g++-7}
+          - os: ubuntu-22.04
+            compiler: {cxx: g++-8, cc: gcc-8, macos_cxx: g++-8, macos_cc: gcc-8, homebrew_package: gcc@8, apt_package: g++-8}
+          - os: ubuntu-22.04
+            compiler: {cxx: clang++-7, cc: clang-7, macos_cxx: /usr/local/opt/llvm@7/bin/clang++, macos_cc: /usr/local/opt/llvm@7/bin/clang, apt_package: clang-7, homebrew_package: llvm@7}
+          - os: ubuntu-22.04
+            compiler: {cxx: clang++-8, cc: clang-8, macos_cxx: /usr/local/opt/llvm@8/bin/clang++, macos_cc: /usr/local/opt/llvm@8/bin/clang, apt_package: clang-8, homebrew_package: llvm@8}
+          - os: ubuntu-22.04
+            compiler: {cxx: clang++-9, cc: clang-9, macos_cxx: /usr/local/opt/llvm@9/bin/clang++, macos_cc: /usr/local/opt/llvm@9/bin/clang, apt_package: clang-9, homebrew_package: llvm@9}
+          - os: ubuntu-22.04
+            compiler: {cxx: clang++-10, cc: clang-10, macos_cxx: /usr/local/opt/llvm@10/bin/clang++, macos_cc: /usr/local/opt/llvm@10/bin/clang, apt_package: clang-10, homebrew_package: llvm@10}
+          # Clang 11 on Ubuntu seems to have a bug that fails CI
+          - os: ubuntu-22.04
+            compiler: {cxx: clang++-11, cc: clang-11, macos_cxx: /usr/local/opt/llvm@11/bin/clang++, macos_cc: /usr/local/opt/llvm@11/bin/clang, apt_package: "clang-11 libomp5-11 libomp-11-dev", homebrew_package: llvm@11}
+            build_type: Debug
         include:
           - name: Local dependencies
-            os: ubuntu-18.04
+            os: ubuntu-22.04
             compiler:
               cxx: clang++-11
               cc: clang-11
-              apt_package: clang-11
+              apt_package: clang-11 libomp5-11 libomp-11-dev
             build_type: RelWithDebInfo
             extra_cmake_flags: -DDEPENDENCY_CONFIG=../cmake-utils/DependenciesFromLocalSystem.cmake
             extra_cxxflags: ""
@@ -93,11 +195,11 @@ jobs:
             run_build: true
             run_tests: true
           - name: Local dependencies
-            os: ubuntu-20.04
+            os: ubuntu-22.04
             compiler:
               cxx: clang++-11
               cc: clang-11
-              apt_package: clang-11
+              apt_package: clang-11 libomp5-11 libomp-11-dev
             build_type: RelWithDebInfo
             extra_cmake_flags: -DDEPENDENCY_CONFIG=../cmake-utils/DependenciesFromLocalSystem.cmake
             extra_cxxflags: ""
@@ -106,7 +208,7 @@ jobs:
             run_build: true
             run_tests: true
           - name: Werror gcc
-            os: ubuntu-20.04
+            os: ubuntu-22.04
             compiler:
               cxx: g++-9
               cc: gcc-9
@@ -118,11 +220,11 @@ jobs:
             run_build: true
             run_tests: false
           - name: Werror clang
-            os: ubuntu-20.04
+            os: ubuntu-22.04
             compiler:
               cxx: clang++-11
               cc: clang-11
-              apt_package: clang++-11
+              apt_package: clang-11 libomp5-11 libomp-11-dev
             build_type: RelWithDebInfo
             extra_cmake_flags: -DUSE_WERROR=on
             extra_cxxflags: ""
@@ -130,11 +232,11 @@ jobs:
             run_build: true
             run_tests: false
           - name: No compatibility
-            os: ubuntu-20.04
+            os: ubuntu-22.04
             compiler:
               cxx: clang++-11
               cc: clang-11
-              apt_package: clang++-11
+              apt_package: clang-11 libomp5-11 libomp-11-dev
             build_type: RelWithDebInfo
             extra_cmake_flags: ""
             extra_cxxflags: "-DCRYFS_NO_COMPATIBILITY"
@@ -143,11 +245,12 @@ jobs:
             run_build: true
             run_tests: true
           - name: ASAN
+            # TODO Update to ubuntu-22.04
             os: ubuntu-20.04
             compiler:
               cxx: clang++-11
               cc: clang-11
-              apt_package: clang++-11
+              apt_package: clang-11 libomp5-11 libomp-11-dev
             build_type: Debug
             # OpenMP crashes under asan. Disable OpenMP.
             # TODO is it enough to replace this with omp_num_threads: 1 ?
@@ -158,11 +261,12 @@ jobs:
             run_build: true
             run_tests: true
           - name: UBSAN
+            # TODO Update to ubuntu-22.04
             os: ubuntu-20.04
             compiler:
               cxx: clang++-11
               cc: clang-11
-              apt_package: clang++-11
+              apt_package: clang-11 libomp5-11 libomp-11-dev
             build_type: Debug
             # OpenMP crashes under ubsan. Disable OpenMP.
             # TODO is it enough to replace this with omp_num_threads: 1 ?
@@ -173,11 +277,12 @@ jobs:
             run_build: true
             run_tests: true
           - name: TSAN
+            # TODO Update to ubuntu-22.04
             os: ubuntu-20.04
             compiler:
               cxx: clang++-11
               cc: clang-11
-              apt_package: clang++-11
+              apt_package: clang-11 libomp5-11 libomp-11-dev
             build_type: Debug
             extra_cmake_flags: ""
             extra_cxxflags: "-O2 -fsanitize=thread -fno-omit-frame-pointer -fno-omit-frame-pointer -fno-optimize-sibling-calls -fno-common"
@@ -187,11 +292,11 @@ jobs:
             gtest_args: "--gtest_filter=-LoggingTest.LoggingAlsoWorksAfterFork:AssertTest_*:BacktraceTest.*:SubprocessTest.*:SignalCatcherTest.*_thenDies:SignalHandlerTest.*_thenDies:SignalHandlerTest.givenMultipleSigIntHandlers_whenRaising_thenCatchesCorrectSignal:CliTest_Setup.*:CliTest_IntegrityCheck.*:*/CliTest_WrongEnvironment.*:CliTest_Unmount.*:CliTest.WorksWithCommasInBasedir"
             extra_env_vars_for_test: OMP_NUM_THREADS=1
           - name: clang-tidy
-            os: ubuntu-20.04
+            os: ubuntu-22.04
             compiler:
               cxx: clang++-11
               cc: clang-11
-              apt_package: clang++-11 clang-tidy-11
+              apt_package: clang-11 clang-tidy-11 libomp5-11 libomp-11-dev
             build_type: RelWithDebInfo
             extra_cmake_flags: ""
             extra_cxxflags: ""
@@ -247,10 +352,7 @@ jobs:
         shell: bash
         run: |
           # Using "python3 -m pip" instead of "pip3" to make sure we get the same pip that we queried the cache dir for the Github Cache action
-          if [[ "${{matrix.os}}" == "ubuntu-18.04" ]]; then
-            python3 -m pip install setuptools
-          fi
-          python3 -m pip install conan
+          python3 -m pip install conan==1.59
       - name: Save pip cache
         # note: this access key has write access to the cache. This can't run on PRs.
         if: ${{github.event_name == 'push' }}
@@ -403,7 +505,7 @@ jobs:
         with:
           gtest_args: ${{matrix.gtest_args}}
           extra_env_vars: ${{matrix.extra_env_vars_for_test}}
-          
+
   windows:
     name: CI (Windows)
     strategy:
@@ -455,7 +557,7 @@ jobs:
         shell: bash
         run: |
           # Using "python3 -m pip" instead of "pip3" to make sure we get the same pip that we queried the cache dir for the Github Cache action
-          python3 -m pip install conan
+          python3 -m pip install conan==1.59
       - name: Save pip cache
         # note: this access key has write access to the cache. This can't run on PRs.
         if: ${{github.event_name == 'push' }}
