@@ -89,18 +89,18 @@ Requirements
   - CMake version >= 3.10
   - pkg-config (on Unix)
   - Conan package manager (version 1.x)
-  - libFUSE version >= 2.9 (including development headers), on Mac OS X instead install macFUSE from https://osxfuse.github.io/
+  - libFUSE version >= 3.0 (including development headers), on Mac OS X instead install macFUSE from https://osxfuse.github.io/
   - Python >= 3.5
   - OpenMP
 
 You can use the following commands to install these requirements
 
         # Ubuntu
-        $ sudo apt install git g++ cmake make pkg-config libfuse-dev python3 python3-pip
+        $ sudo apt install git g++ cmake make pkg-config libfuse3-dev python3 python3-pip
         $ sudo pip3 install conan==1.60.1
 
         # Fedora
-        $ sudo dnf install git gcc-c++ cmake make pkgconf fuse-devel python3 python3-pip
+        $ sudo dnf install git gcc-c++ cmake make pkgconf fuse3-devel python3 python3-pip
         $ sudo pip3 install conan==1.60.1
 
         # Macintosh

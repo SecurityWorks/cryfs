@@ -74,3 +74,6 @@ runs:
         echo Install boost
         ./bootstrap.sh --with-libraries=filesystem,system,thread,chrono,program_options
         sudo ./b2 link=shared cxxflags=-fPIC --prefix=/usr -d0 -j$NUMCORES install
+
+        echo Install libcurl
+        sudo apt-get install -y libcurl4-openssl-dev
